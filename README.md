@@ -18,7 +18,6 @@ Run locally (macOS / zsh)
 1. Install dependencies
 
 ```bash
-cd /Users/amritapal/Desktop/pbd-website/Pale-Blue-Dot
 npm install
 ```
 
