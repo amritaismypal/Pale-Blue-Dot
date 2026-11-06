@@ -10,6 +10,7 @@ const publicSanityClient = projectId ? createClient({
   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2025-01-01',
   useCdn: true,
 }) : null
+export const sanityClient = publicSanityClient
 
 function getSanityClient(preview = false) {
   if (!projectId) return null
