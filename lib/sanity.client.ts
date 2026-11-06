@@ -4,6 +4,11 @@ import type { SiteSettings } from '../types/content'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+const isProductionDeployment = process.env.VERCEL_ENV === 'production'
+// Preview deployments keep published Sanity content fresh. Production serves a
+// snapshot from its last deployment until we deliberately deploy again.
+export const contentRevalidate = isProductionDeployment ? false : 60
+export const contentPathFallback = isProductionDeployment ? false : 'blocking'
 export const sanityConfigured = Boolean(projectId)
 const publicSanityClient = projectId ? createClient({
   projectId, dataset,

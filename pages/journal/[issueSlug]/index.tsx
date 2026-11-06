@@ -6,18 +6,18 @@ import Layout from '../../../components/Layout'
 import Breadcrumbs from '../../../components/Breadcrumbs'
 import TranslationPreview from '../../../components/TranslationPreview'
 import EmptyState from '../../../components/EmptyState'
-import { sanityFetch, sanityFetchSiteSettings } from '../../../lib/sanity.client'
+import { contentPathFallback, contentRevalidate, sanityFetch, sanityFetchSiteSettings } from '../../../lib/sanity.client'
 import { issueBySlugQuery, issuesQuery } from '../../../lib/queries'
 import { sanityImage } from '../../../lib/sanity.image'
 import type { Issue, SiteSettings } from '../../../types/content'
 
 type Props = { issue: Issue | null; settings: SiteSettings }
-export const getStaticPaths: GetStaticPaths = async () => { const issues = await sanityFetch<Issue[]>(issuesQuery, {}, []); return { paths: issues.map((issue) => ({ params: { issueSlug: issue.slug } })), fallback: 'blocking' } }
+export const getStaticPaths: GetStaticPaths = async () => { const issues = await sanityFetch<Issue[]>(issuesQuery, {}, []); return { paths: issues.map((issue) => ({ params: { issueSlug: issue.slug } })), fallback: contentPathFallback } }
 export const getStaticProps: GetStaticProps<Props> = async ({ params, preview = false }) => {
   const slug = String(params?.issueSlug || '')
   const [issue, settings] = await Promise.all([sanityFetch<Issue | null>(issueBySlugQuery, { slug }, null, preview), sanityFetchSiteSettings(preview)])
-  if (!issue) return { notFound: true, revalidate: 60 }
-  return { props: { issue, settings }, revalidate: 60 }
+  if (!issue) return { notFound: true, revalidate: contentRevalidate }
+  return { props: { issue, settings }, revalidate: contentRevalidate }
 }
 export default function EditionPage({ issue, settings }: Props) {
   if (!issue) return <Layout settings={settings}><section className="container"><EmptyState title="Edition not found">This edition may have moved or is not published yet.</EmptyState></section></Layout>

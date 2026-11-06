@@ -8,17 +8,17 @@ import ArticleBody from '../../../components/ArticleBody'
 import ArticleCard from '../../../components/ArticleCard'
 import References from '../../../components/References'
 import EmptyState from '../../../components/EmptyState'
-import { sanityFetch, sanityFetchSiteSettings } from '../../../lib/sanity.client'
+import { contentPathFallback, contentRevalidate, sanityFetch, sanityFetchSiteSettings } from '../../../lib/sanity.client'
 import { articleBySlugQuery, articlePathsQuery } from '../../../lib/queries'
 import { sanityImage } from '../../../lib/sanity.image'
 import type { Article, SiteSettings } from '../../../types/content'
 
 type Props = { article: Article | null; settings: SiteSettings }
-export const getStaticPaths: GetStaticPaths = async () => { const entries = await sanityFetch<{slug:string; issueSlug:string}[]>(articlePathsQuery, {}, []); return { paths: entries.map(({slug, issueSlug}) => ({params: {issueSlug, articleSlug: slug}})), fallback: 'blocking' } }
+export const getStaticPaths: GetStaticPaths = async () => { const entries = await sanityFetch<{slug:string; issueSlug:string}[]>(articlePathsQuery, {}, []); return { paths: entries.map(({slug, issueSlug}) => ({params: {issueSlug, articleSlug: slug}})), fallback: contentPathFallback } }
 export const getStaticProps: GetStaticProps<Props> = async ({ params, preview = false }) => {
   const [article, settings] = await Promise.all([sanityFetch<Article | null>(articleBySlugQuery, { issueSlug: String(params?.issueSlug || ''), articleSlug: String(params?.articleSlug || '') }, null, preview), sanityFetchSiteSettings(preview)])
-  if (!article) return { notFound: true, revalidate: 60 }
-  return { props: { article, settings }, revalidate: 60 }
+  if (!article) return { notFound: true, revalidate: contentRevalidate }
+  return { props: { article, settings }, revalidate: contentRevalidate }
 }
 export default function ArticlePage({ article, settings }: Props) {
   if (!article) return <Layout settings={settings}><section className="container"><EmptyState title="Article not found">This article may have moved or is not published yet.</EmptyState></section></Layout>

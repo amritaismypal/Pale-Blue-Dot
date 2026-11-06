@@ -6,7 +6,7 @@ import Layout from '../components/Layout'
 import Hero from '../components/Hero'
 import EditionCard from '../components/EditionCard'
 import EmptyState from '../components/EmptyState'
-import { sanityFetch, sanityFetchSiteSettings } from '../lib/sanity.client'
+import { contentRevalidate, sanityFetch, sanityFetchSiteSettings } from '../lib/sanity.client'
 import { blogListQuery, featuredIssueQuery, issuesQuery } from '../lib/queries'
 import { sanityImage } from '../lib/sanity.image'
 import type { BlogPost, Issue, SiteSettings } from '../types/content'
@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ preview = false })
   const [settings, featured, issues, posts] = await Promise.all([
     sanityFetchSiteSettings(preview), sanityFetch< Issue | null>(featuredIssueQuery, {}, null, preview), sanityFetch(issuesQuery, {}, [] as Issue[], preview), sanityFetch(blogListQuery, {}, [] as BlogPost[], preview),
   ])
-  return { props: { settings, featured, issues, posts: posts.slice(0, 3) }, revalidate: 60 }
+  return { props: { settings, featured, issues, posts: posts.slice(0, 3) }, revalidate: contentRevalidate }
 }
 export default function Home({ settings, featured, issues, posts }: Props) {
   const older = issues.filter((issue) => issue._id !== featured?._id).slice(0, 3)
