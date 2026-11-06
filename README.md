@@ -68,7 +68,7 @@ To import the two provided staff profiles, run `npx sanity dataset import studio
 - `/blog` and `/blog/{post}` — blog index and post
 - `/submit`, `/staff`, `/about` — submissions, staff directory, and about page
 
-Blog comments from the early HTML prototype were browser-local only and are not included. There is no server-backed comment feature; add one only if the editors decide they need a shared discussion system.
+Blog comments from the early HTML prototype were browser-local only and are not included. **TODO:** If the editors want shared discussion, decide on a server-backed comment model. There is no server-backed comment feature today.
 
 ## Configuration notes
 
