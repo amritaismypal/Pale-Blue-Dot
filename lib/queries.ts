@@ -11,4 +11,4 @@ export const blogBySlugQuery = `*[_type == "blogPost" && slug.current == $slug][
 export const blogPathsQuery = `*[_type == "blogPost" && defined(slug.current)]{"slug": slug.current}`
 export const siteSettingsQuery = `*[_type == "siteSettings"][0]{submissionsOpen, submissionsFormUrl, submissionsClosedMessage, submissionGuidelines, contactEmail, socialLinks, aboutBlurb}`
 export const staffQuery = `*[_type == "staffMember"] | order(displayOrder asc, name asc){_id, name, "slug": slug.current, role, bio, funFact, email, linkedin, "photo": photo{..., "asset": asset->}}`
-export const aboutQuery = `*[_type == "aboutPage"][0]{mission, history, values, body}`
+export const aboutQuery = `*[_type == "aboutPage"][0]{mission, history, values, howItWorks, body}`
