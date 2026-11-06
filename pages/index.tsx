@@ -12,9 +12,9 @@ import { sanityImage } from '../lib/sanity.image'
 import type { BlogPost, Issue, SiteSettings } from '../types/content'
 
 type Props = { settings: SiteSettings; featured: Issue | null; issues: Issue[]; posts: BlogPost[] }
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getStaticProps: GetStaticProps<Props> = async ({ preview = false }) => {
   const [settings, featured, issues, posts] = await Promise.all([
-    sanityFetchSiteSettings(), sanityFetch< Issue | null>(featuredIssueQuery, {}, null), sanityFetch(issuesQuery, {}, [] as Issue[]), sanityFetch(blogListQuery, {}, [] as BlogPost[]),
+    sanityFetchSiteSettings(preview), sanityFetch< Issue | null>(featuredIssueQuery, {}, null, preview), sanityFetch(issuesQuery, {}, [] as Issue[], preview), sanityFetch(blogListQuery, {}, [] as BlogPost[], preview),
   ])
   return { props: { settings, featured, issues, posts: posts.slice(0, 3) }, revalidate: 60 }
 }

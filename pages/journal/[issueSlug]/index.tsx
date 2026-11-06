@@ -13,9 +13,9 @@ import type { Issue, SiteSettings } from '../../../types/content'
 
 type Props = { issue: Issue | null; settings: SiteSettings }
 export const getStaticPaths: GetStaticPaths = async () => { const issues = await sanityFetch<Issue[]>(issuesQuery, {}, []); return { paths: issues.map((issue) => ({ params: { issueSlug: issue.slug } })), fallback: 'blocking' } }
-export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<Props> = async ({ params, preview = false }) => {
   const slug = String(params?.issueSlug || '')
-  const [issue, settings] = await Promise.all([sanityFetch<Issue | null>(issueBySlugQuery, { slug }, null), sanityFetchSiteSettings()])
+  const [issue, settings] = await Promise.all([sanityFetch<Issue | null>(issueBySlugQuery, { slug }, null, preview), sanityFetchSiteSettings(preview)])
   if (!issue) return { notFound: true, revalidate: 60 }
   return { props: { issue, settings }, revalidate: 60 }
 }
