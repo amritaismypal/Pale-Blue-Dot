@@ -1,0 +1,16 @@
+{
+  "name": "pale-blue-dot-studio",
+  "private": true,
+  "scripts": {
+    "dev": "dotenv -e ../.env.local -- sanity dev --config sanity.config.ts",
+    "deploy": "dotenv -e ../.env.local -- sanity deploy --config sanity.config.ts"
+  },
+  "dependencies": {
+    "react": "^19.2.2",
+    "react-dom": "^19.2.2",
+    "sanity": "6.22.0"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^10.0.0"
+  }
+}

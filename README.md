@@ -10,7 +10,7 @@ When you add an article, choose its Edition and enter its language. To make a bi
 
 ## Run the website
 
-1. Install dependencies with `npm install`.
+1. Install website dependencies with `npm install`.
 2. Copy `.env.example` to `.env.local` and add the Sanity project ID, dataset, and API version. The public site can still be previewed without a Sanity project; CMS-backed pages will show their empty states.
 3. Start the website with `npm run dev`, then open `http://localhost:3000`.
 4. Run `npm run build` to create a production build and `npm start` to serve it locally.
@@ -18,12 +18,13 @@ When you add an article, choose its Edition and enter its language. To make a bi
 
 ## Set up Sanity Studio
 
-1. Create a Sanity project in the Sanity management console and choose a dataset (usually `production`).
-2. Set `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, and `NEXT_PUBLIC_SANITY_API_VERSION` in `.env.local`. The same variables configure the Studio and website.
-3. Start the local Studio with `npm run studio`; open the URL printed by the CLI.
-4. To enable moderated blog comments, create a Sanity API token with dataset write access and put it in `SANITY_API_WRITE_TOKEN` in `.env.local`. Keep this token server-only: do not add the `NEXT_PUBLIC_` prefix or commit the value. Set it in Vercel's server environment variables for production too.
-5. Deploy the hosted Studio with `npm run studio:deploy` (the Sanity CLI may ask you to sign in and choose a Studio hostname).
-6. In Sanity project settings, add the production website origin to **API → CORS origins**. Add local development as `http://localhost:3000` too, with credentials enabled only if you later use authenticated previews.
+1. Install the Studio's separate dependencies once with `npm run studio:install`. This Studio uses its own React 19 install so it does not conflict with the website's React 18.
+2. Create a Sanity account, run `npx sanity login` from the repository root, then create a **public** `production` dataset with `npx sanity projects create "Pale Blue Dot" --dataset production --dataset-visibility public`.
+3. Set `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, and `NEXT_PUBLIC_SANITY_API_VERSION` in the repository-root `.env.local` file. Both the website and Studio read these values.
+4. Start the local Studio with `npm run studio`; open the URL printed by the CLI.
+5. To enable moderated blog comments, create a Sanity API token with write access and put it in `SANITY_API_WRITE_TOKEN` in `.env.local`. Keep this token server-only: do not add the `NEXT_PUBLIC_` prefix or commit the value. Set it in Vercel's server environment variables for production too.
+6. Deploy the hosted Studio with `npm run studio:deploy` (the Sanity CLI may ask you to sign in and choose a Studio hostname).
+7. If Studio reports a CORS error, add its exact origin (usually `http://localhost:3333`) under project **Settings → API → CORS origins** and allow credentials. The website reads Sanity server-side, so `localhost:3000` does not need a browser CORS entry for the current implementation.
 
 The Next.js website can be deployed to Vercel by importing the GitHub repository and setting the three `NEXT_PUBLIC_SANITY_*` environment variables in the Vercel project settings. Deploy after the variables are set. Sanity-backed pages use Incremental Static Regeneration and revalidate every 60 seconds.
 
@@ -74,7 +75,7 @@ Comments are stored in the same Sanity dataset as the rest of the journal conten
 
 ### Seed staff profiles
 
-To import the two provided staff profiles, run `npx sanity dataset import studio/seed/staff.ndjson production` after configuring the project and dataset. To use another dataset, replace `production` with its name. The import creates Rocio Tejerina and Azeeza Evelyna with the supplied biographies and fun facts.
+To import the two provided staff profiles, run `cd studio && npx sanity datasets import seed/staff.ndjson production` after configuring the project and dataset. To use another dataset, replace `production` with its name. The import creates Rocio Tejerina and Azeeza Evelyna with the supplied biographies and fun facts.
 
 ## Content and routes
 
