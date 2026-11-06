@@ -1,0 +1,3 @@
+import type { StaffMember } from '../types/content'
+import StaffPhoto from './StaffPhoto'
+export default function StaffCard({ member, localPhoto }: { member: StaffMember; localPhoto?: string }) { return <article className="staff-card"><StaffPhoto name={member.name} slug={member.slug} photo={member.photo} localPhoto={localPhoto} /><div><p className="eyebrow">{member.role || 'Editorial team'}</p><h2>{member.name}</h2>{member.bio && <p>{member.bio}</p>}{member.funFact && <p className="fun-fact"><strong>Fun fact:</strong> {member.funFact}</p>}{member.email && <a href={`mailto:${member.email}`}>Email {member.name.split(' ')[0]}</a>} {member.linkedin && <a href={member.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>}</div></article> }
