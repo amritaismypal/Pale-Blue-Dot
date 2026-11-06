@@ -1,6 +1,12 @@
 # Pale Blue Dot
 
-Pale Blue Dot is an interdisciplinary student journal built with Next.js Pages Router, TypeScript, Tailwind CSS, and Sanity. Sanity is the content database and media host; editions contain articles, and articles cannot be published without an edition.
+Pale Blue Dot is an interdisciplinary student journal built with Next.js Pages Router, TypeScript, Tailwind CSS, and Sanity. Sanity is the hosted content database and media library; editions contain articles, and articles cannot be published without an edition.
+
+### How the content flow works
+
+The website code and the editorial content are separate. The Next.js app asks Sanity for published editions, articles, staff profiles, and settings when pages build or revalidate (once a minute). Sanity also stores uploaded photos, cover art, and PDFs, then serves those files through its CDN. You edit records and upload files in Sanity Studio; you do not need to change website code to publish routine content. The two staff profiles provided for the site are in `studio/seed/staff.ndjson`; import them into your own Sanity dataset to make them live. Adding the seed file to the repository does not itself add records to your Sanity account.
+
+When you add an article, choose its Edition and enter its language. To make a bilingual pair, create both article records and set **Translation of** on the translated record to point to the original. The Edition page then shows the original and English versions side by side when one is linked. Add the original article first, then the translation.
 
 ## Run the website
 
@@ -15,8 +21,9 @@ Pale Blue Dot is an interdisciplinary student journal built with Next.js Pages R
 1. Create a Sanity project in the Sanity management console and choose a dataset (usually `production`).
 2. Set `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, and `NEXT_PUBLIC_SANITY_API_VERSION` in `.env.local`. The same variables configure the Studio and website.
 3. Start the local Studio with `npm run studio`; open the URL printed by the CLI.
-4. Deploy the hosted Studio with `npm run studio:deploy` (the Sanity CLI may ask you to sign in and choose a Studio hostname).
-5. In Sanity project settings, add the production website origin to **API → CORS origins**. Add local development as `http://localhost:3000` too, with credentials enabled only if you later use authenticated previews.
+4. To enable moderated blog comments, create a Sanity API token with dataset write access and put it in `SANITY_API_WRITE_TOKEN` in `.env.local`. Keep this token server-only: do not add the `NEXT_PUBLIC_` prefix or commit the value. Set it in Vercel's server environment variables for production too.
+5. Deploy the hosted Studio with `npm run studio:deploy` (the Sanity CLI may ask you to sign in and choose a Studio hostname).
+6. In Sanity project settings, add the production website origin to **API → CORS origins**. Add local development as `http://localhost:3000` too, with credentials enabled only if you later use authenticated previews.
 
 The Next.js website can be deployed to Vercel by importing the GitHub repository and setting the three `NEXT_PUBLIC_SANITY_*` environment variables in the Vercel project settings. Deploy after the variables are set. Sanity-backed pages use Incremental Static Regeneration and revalidate every 60 seconds.
 
@@ -48,6 +55,16 @@ The Next.js website can be deployed to Vercel by importing the GitHub repository
 3. Upload their photo and enter alternative text. If a photo is missing, the site shows initials; a local fallback can be added at `public/images/staff/{slug}.jpg`.
 4. Choose **Publish**.
 
+You can upload the photos directly in the **Photo** field. Add alternative text when prompted. Sanity stores the image and the website uses it automatically. If you do not have a photo yet, the initials avatar appears instead.
+
+### Review blog comments
+
+1. In Studio, open **Blog comment** to see submitted comments.
+2. Open a comment and read its linked post, display name, and message.
+3. Check **Approved for display** and choose **Publish** to show it publicly. Leave it unchecked to keep it hidden.
+
+Comments are stored in the same Sanity dataset as the rest of the journal content. New comments are hidden until an editor approves them. The write token is used only by the server API route; visitors never receive it.
+
 ### Open or close submissions
 
 1. In the left navigation, open the pinned **Site settings** singleton.
@@ -68,7 +85,7 @@ To import the two provided staff profiles, run `npx sanity dataset import studio
 - `/blog` and `/blog/{post}` — blog index and post
 - `/submit`, `/staff`, `/about` — submissions, staff directory, and about page
 
-Blog comments from the early HTML prototype were browser-local only and are not included. **TODO:** If the editors want shared discussion, decide on a server-backed comment model. There is no server-backed comment feature today.
+Blog comments now save as unapproved Sanity records and appear publicly only after editorial approval. The early prototype's browser-local comments were replaced with this shared, moderated workflow.
 
 ## Configuration notes
 

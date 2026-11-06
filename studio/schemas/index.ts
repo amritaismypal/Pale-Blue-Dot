@@ -6,5 +6,6 @@ import staffMember from './staffMember'
 import siteSettings from './siteSettings'
 import aboutPage from './aboutPage'
 import blockContent from './blockContent'
+import blogComment from './blogComment'
 
-export const schemaTypes = [issue, article, author, blogPost, staffMember, siteSettings, aboutPage, blockContent]
+export const schemaTypes = [issue, article, author, blogPost, blogComment, staffMember, siteSettings, aboutPage, blockContent]

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import Link from 'next/link'
 export default function Hero({ aboutBlurb }: { aboutBlurb?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -14,5 +15,5 @@ export default function Hero({ aboutBlurb }: { aboutBlurb?: string }) {
     const change = () => { cancelAnimationFrame(frame); draw() }; motion.addEventListener('change', change)
     return () => { cancelAnimationFrame(frame); window.removeEventListener('resize', resize); motion.removeEventListener('change', change) }
   }, [])
-  return <section className="hero-canvas-wrap"><canvas ref={canvasRef} className="hero-canvas" aria-hidden="true" /><div className="hero-content"><div className="hero-inner"><p className="eyebrow hero-kicker">An interdisciplinary student journal</p><h1>PALE BLUE DOT</h1><p className="hero-tagline">Ideas travel farther when every voice has room.</p><p className="hero-mission">{aboutBlurb || 'A journal for student scholarship and ideas that cross borders, disciplines, and languages.'}</p></div></div><span className="scroll-indicator" aria-hidden="true">↓</span></section>
+  return <section className="hero-canvas-wrap"><canvas ref={canvasRef} className="hero-canvas" aria-hidden="true" /><div className="hero-content"><div className="hero-inner"><h1>PALE BLUE DOT</h1><p className="hero-tagline">Interdisciplinary scholarship beyond borders</p><p className="hero-mission">{aboutBlurb || "An editorial journal centering student scholars and intellectuals outside the United States. We publish work in the authors' original language and in English"}</p><Link className="hero-cta" href="/journal">Explore the Journals <span aria-hidden="true">→</span></Link></div></div><span className="scroll-indicator" aria-hidden="true">↓</span></section>
 }
