@@ -6,6 +6,7 @@
     "deploy": "dotenv -e ../.env.local -- sanity deploy --config sanity.config.ts"
   },
   "dependencies": {
+    "@sanity/vercel-protection-bypass": "^5.0.27",
     "react": "^19.2.2",
     "react-dom": "^19.2.2",
     "sanity": "6.22.0"

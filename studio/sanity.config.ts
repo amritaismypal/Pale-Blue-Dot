@@ -1,4 +1,5 @@
 import { defineConfig } from 'sanity'
+import { vercelProtectionBypassTool } from '@sanity/vercel-protection-bypass'
 import { presentationTool } from 'sanity/presentation'
 import { structureTool } from 'sanity/structure'
 import { schemaTypes } from './schemas'
@@ -17,6 +18,6 @@ export default defineConfig({
       initial: process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000',
       previewMode: { enable: '/api/draft-mode/enable', disable: '/api/draft-mode/disable' },
     },
-  })],
+  }), vercelProtectionBypassTool()],
   schema: { types: schemaTypes },
 })
