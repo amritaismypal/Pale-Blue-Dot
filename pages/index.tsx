@@ -6,15 +6,15 @@ import Layout from '../components/Layout'
 import Hero from '../components/Hero'
 import EditionCard from '../components/EditionCard'
 import EmptyState from '../components/EmptyState'
-import { sanityFetch } from '../lib/sanity.client'
-import { blogListQuery, featuredIssueQuery, issuesQuery, siteSettingsQuery } from '../lib/queries'
+import { sanityFetch, sanityFetchSiteSettings } from '../lib/sanity.client'
+import { blogListQuery, featuredIssueQuery, issuesQuery } from '../lib/queries'
 import { sanityImage } from '../lib/sanity.image'
 import type { BlogPost, Issue, SiteSettings } from '../types/content'
 
 type Props = { settings: SiteSettings; featured: Issue | null; issues: Issue[]; posts: BlogPost[] }
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const [settings, featured, issues, posts] = await Promise.all([
-    sanityFetch(siteSettingsQuery, {}, {} as SiteSettings), sanityFetch< Issue | null>(featuredIssueQuery, {}, null), sanityFetch(issuesQuery, {}, [] as Issue[]), sanityFetch(blogListQuery, {}, [] as BlogPost[]),
+    sanityFetchSiteSettings(), sanityFetch< Issue | null>(featuredIssueQuery, {}, null), sanityFetch(issuesQuery, {}, [] as Issue[]), sanityFetch(blogListQuery, {}, [] as BlogPost[]),
   ])
   return { props: { settings, featured, issues, posts: posts.slice(0, 3) }, revalidate: 60 }
 }

@@ -8,15 +8,15 @@ import ArticleBody from '../../../components/ArticleBody'
 import ArticleCard from '../../../components/ArticleCard'
 import References from '../../../components/References'
 import EmptyState from '../../../components/EmptyState'
-import { sanityFetch } from '../../../lib/sanity.client'
-import { articleBySlugQuery, articlePathsQuery, siteSettingsQuery } from '../../../lib/queries'
+import { sanityFetch, sanityFetchSiteSettings } from '../../../lib/sanity.client'
+import { articleBySlugQuery, articlePathsQuery } from '../../../lib/queries'
 import { sanityImage } from '../../../lib/sanity.image'
 import type { Article, SiteSettings } from '../../../types/content'
 
 type Props = { article: Article | null; settings: SiteSettings }
 export const getStaticPaths: GetStaticPaths = async () => { const entries = await sanityFetch<{slug:string; issueSlug:string}[]>(articlePathsQuery, {}, []); return { paths: entries.map(({slug, issueSlug}) => ({params: {issueSlug, articleSlug: slug}})), fallback: 'blocking' } }
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const [article, settings] = await Promise.all([sanityFetch<Article | null>(articleBySlugQuery, { issueSlug: String(params?.issueSlug || ''), articleSlug: String(params?.articleSlug || '') }, null), sanityFetch(siteSettingsQuery, {}, {} as SiteSettings)])
+  const [article, settings] = await Promise.all([sanityFetch<Article | null>(articleBySlugQuery, { issueSlug: String(params?.issueSlug || ''), articleSlug: String(params?.articleSlug || '') }, null), sanityFetchSiteSettings()])
   if (!article) return { notFound: true, revalidate: 60 }
   return { props: { article, settings }, revalidate: 60 }
 }

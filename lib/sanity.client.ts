@@ -1,4 +1,6 @@
 import { createClient } from '@sanity/client'
+import { siteSettingsQuery } from './queries'
+import type { SiteSettings } from '../types/content'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
@@ -15,4 +17,9 @@ export async function sanityFetch<T>(query: string, params: Record<string, unkno
     console.error('Sanity query failed:', error)
     return fallback
   }
+}
+
+export async function sanityFetchSiteSettings(): Promise<SiteSettings> {
+  const settings = await sanityFetch<SiteSettings | null>(siteSettingsQuery, {}, null)
+  return settings ?? {}
 }
