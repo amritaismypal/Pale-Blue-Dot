@@ -58,6 +58,12 @@ The Next.js website can be deployed to Vercel by importing the GitHub repository
 
 You can upload the photos directly in the **Photo** field. Add alternative text when prompted. Sanity stores the image and the website uses it automatically. If you do not have a photo yet, the initials avatar appears instead.
 
+### Update the site logo
+
+1. In the left navigation, open the pinned **Site settings** singleton.
+2. Upload a logo in **Site logo** and add alternative text.
+3. Choose **Publish**. The header uses the uploaded image; if no logo is set, it keeps the text logo.
+
 ### Review blog comments
 
 1. In Studio, open **Blog comment** to see submitted comments.

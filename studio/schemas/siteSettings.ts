@@ -1,4 +1,5 @@
 export default { name: 'siteSettings', title: 'Site settings', type: 'document', fields: [
+  { name: 'logo', title: 'Site logo', type: 'image', description: 'Upload the logo shown in the site header. Add alternative text for accessibility.', fields: [{ name: 'alt', title: 'Alternative text', type: 'string', validation: (Rule: any) => Rule.required() }] },
   { name: 'submissionsOpen', title: 'Submissions open', type: 'boolean', initialValue: false },
   { name: 'submissionsFormUrl', title: 'Submission form URL', type: 'url' },
   { name: 'submissionsClosedMessage', title: 'Closed message', type: 'string', initialValue: 'Submissions are closed for now.' },

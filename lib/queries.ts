@@ -9,6 +9,6 @@ export const articlePathsQuery = `*[_type == "article" && defined(slug.current) 
 export const blogListQuery = `*[_type == "blogPost"] | order(publishedAt desc){${blogFields}}`
 export const blogBySlugQuery = `*[_type == "blogPost" && slug.current == $slug][0]{${blogFields}}`
 export const blogPathsQuery = `*[_type == "blogPost" && defined(slug.current)]{"slug": slug.current}`
-export const siteSettingsQuery = `*[_type == "siteSettings"][0]{submissionsOpen, submissionsFormUrl, submissionsClosedMessage, submissionGuidelines, contactEmail, socialLinks, aboutBlurb}`
+export const siteSettingsQuery = `*[_type == "siteSettings"][0]{submissionsOpen, submissionsFormUrl, submissionsClosedMessage, submissionGuidelines, contactEmail, socialLinks, aboutBlurb, "logo": logo{..., "asset": asset->}}`
 export const staffQuery = `*[_type == "staffMember"] | order(displayOrder asc, name asc){_id, name, "slug": slug.current, role, bio, funFact, email, linkedin, "photo": photo{..., "asset": asset->}}`
 export const aboutQuery = `*[_type == "aboutPage"][0]{mission, history, values, howItWorks, body}`

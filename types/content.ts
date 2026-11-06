@@ -5,5 +5,5 @@ export interface ArticleLink { title: string; slug: string; language?: string; i
 export interface Issue { _id?: string; title: string; slug: string; editionNumber?: number; publishedAt?: string; description?: string; featured?: boolean; coverImage?: ImageData; pdf?: { url?: string; size?: number }; articleCount?: number; articles?: Article[] }
 export interface BlogPost { _id?: string; title: string; slug: string; publishedAt?: string; excerpt?: string; body?: unknown[]; coverImage?: ImageData; author?: Author }
 export interface StaffMember { _id: string; name: string; slug?: string; role?: string; bio?: string; funFact?: string; email?: string; linkedin?: string; photo?: ImageData }
-export interface SiteSettings { submissionsOpen?: boolean; submissionsFormUrl?: string; submissionsClosedMessage?: string; submissionGuidelines?: unknown[]; contactEmail?: string; socialLinks?: {label: string; url: string}[]; aboutBlurb?: string }
+export interface SiteSettings { logo?: ImageData; submissionsOpen?: boolean; submissionsFormUrl?: string; submissionsClosedMessage?: string; submissionGuidelines?: unknown[]; contactEmail?: string; socialLinks?: {label: string; url: string}[]; aboutBlurb?: string }
 export interface AboutPage { mission?: string; history?: string; values?: string; howItWorks?: unknown[]; body?: unknown[] }
