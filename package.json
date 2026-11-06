@@ -6,14 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "studio": "sanity dev --config studio/sanity.config.ts",
+    "studio:deploy": "sanity deploy --config studio/sanity.config.ts"
   },
   "dependencies": {
+    "@portabletext/react": "^7.0.1",
     "@sanity/client": "^7.22.1",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/structure": "^2.36.2",
     "framer-motion": "^10.12.9",
     "next": "^16.2.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sanity": "^6.22.0"
   },
   "devDependencies": {
     "@types/node": "^18.16.0",
