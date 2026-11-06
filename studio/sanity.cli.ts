@@ -7,6 +7,7 @@ export default defineCliConfig({
     dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   },
   deployment: {
+    appId: 'fx3cbhs7m8l6kpjhn6l9nfhh',
     autoUpdates: true,
   },
 })
